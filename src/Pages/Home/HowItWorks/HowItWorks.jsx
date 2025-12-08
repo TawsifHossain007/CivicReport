@@ -1,58 +1,59 @@
 import React from "react";
-import { FaPencilAlt, FaCheckCircle, FaUsers, FaTools } from "react-icons/fa";
+import { FaRegEdit, FaPaperPlane, FaBell, FaCheck } from "react-icons/fa";
 
 const steps = [
   {
-    icon: <FaPencilAlt />,
-    title: "Report an Issue",
-    description:
-      "Submit any public infrastructure issue quickly using our easy-to-use form.",
+    icon: <FaRegEdit />,
+    title: "Report Issue",
+    description: "Submit your issue quickly with details and photos.",
   },
   {
-    icon: <FaCheckCircle />,
-    title: "Verify",
-    description: "Our team verifies the issue and ensures accurate reporting.",
+    icon: <FaPaperPlane />,
+    title: "Verify & Assign",
+    description: "Our team checks the report and assigns staff.",
   },
   {
-    icon: <FaUsers />,
-    title: "Assign",
-    description:
-      "The verified issue is assigned to the responsible staff for resolution.",
+    icon: <FaBell />,
+    title: "Track Progress",
+    description: "Monitor updates on your report in real-time.",
   },
   {
-    icon: <FaTools />,
-    title: "Resolve",
-    description: "The issue is fixed, and the status is updated transparently.",
+    icon: <FaCheck />,
+    title: "Issue Resolved",
+    description: "The issue is resolved and marked completed.",
   },
 ];
 
 const HowItWorks = () => {
   return (
-    <div className="w-11/12 mx-auto py-16">
-      <div className="text-center  mb-12">
-        <h2 className="text-3xl lg:text-4xl font-bold text-green-900 text-center mb-3">
+    <div className="w-11/12 mx-auto py-20 bg-green-50">
+      <div className="mb-12">
+        <h2 className="text-3xl lg:text-4xl mb-5 font-bold text-green-900 text-center">
           How It Works
         </h2>
-        <p className="font-normal text-gray-700">
-          Our platform makes it easy for citizens to contribute to a smarter,
-          safer city. Simply report any public infrastructure issue, and our
-          team <br /> will verify, assign, and ensure it gets resolved efficiently.
-          Track the progress of each report and stay informed—because improving
-          your city starts with your voice.
+        <p className="text-green-800 text-center mb-16 max-w-2xl mx-auto">
+          Follow these steps to report and resolve public issues efficiently.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="relative flex flex-col lg:flex-row items-center justify-between lg:space-x-8">
         {steps.map((step, index) => (
           <div
             key={index}
-            className="bg-white rounded-xl p-6 shadow-md flex flex-col items-center text-center hover:scale-105 transition-transform"
+            className="flex flex-col items-center text-center mb-12 lg:mb-0"
           >
-            <div className="text-primary text-5xl mb-4">{step.icon}</div>
+            <div className="bg-primary text-white w-16 h-16 flex items-center justify-center rounded-full text-3xl mb-4 z-10">
+              {step.icon}
+            </div>
             <h3 className="text-xl font-semibold text-green-800 mb-2">
               {step.title}
             </h3>
-            <p className="text-green-700 text-sm">{step.description}</p>
+            <p className="text-green-700 max-w-xs">{step.description}</p>
+
+            {/* Connector line except for last step */}
+            {index !== steps.length - 1 && (
+              <div className="hidden lg:block absolute top-8 left-[calc(25%*{index+1})] w-[25%] h-1 bg-green-300 z-0"></div>
+            )}
           </div>
         ))}
       </div>

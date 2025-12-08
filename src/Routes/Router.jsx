@@ -4,11 +4,16 @@ import Home from "../Pages/Home/Home";
 import AllIssues from "../Pages/AllIssues/AllIssues";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import Support from "../Pages/Support/Support";
+import ErrorApps from "../Pages/Error/Error";
+import AuthLayout from "../Layouts/AuthLayout/AuthLayout";
+import Login from "../Pages/Auth/Login";
+import Register from "../Pages/Auth/Register";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: Root,
+    errorElement: <ErrorApps></ErrorApps>,
     children: [
         {
             index: true,
@@ -28,4 +33,18 @@ export const router = createBrowserRouter([
         }
     ]
   },
+  {
+    path: '/',
+    Component: AuthLayout,
+    children: [
+        {
+            path: '/login',
+            Component: Login
+        },
+        {
+            path: 'register',
+            Component: Register
+        }
+    ]
+  }
 ]);
