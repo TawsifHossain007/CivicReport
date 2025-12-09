@@ -38,7 +38,7 @@ const ReportIssue = () => {
       description: data.description,
       category: data.category,
       image: imageUrl,
-      IssueStatus: 'Reported',
+      IssueStatus: 'Pending',
       location: data.location,
       date: new Date().toISOString(),
     };
