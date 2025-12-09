@@ -125,7 +125,7 @@ const Navbar = () => {
                     className="btn btn-primary w-full text-black mt-2"
                     
                   >
-                    Update Profile
+                    Dashboard
                   </button>
                 </li>
               </ul>

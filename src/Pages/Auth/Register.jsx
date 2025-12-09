@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router";
 import SocialLogin from "./SocialLogin";
 import useAuth from "../../hooks/useAuth/useAuth";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Register = () => {
   const {
@@ -14,11 +15,32 @@ const Register = () => {
   } = useForm();
 
   const navigate = useNavigate();
-  const { registerUser } = useAuth();
+  const { registerUser, updateUserProfile } = useAuth();
 
   const handleRegistration = (data) => {
+    const profileImg = data.photo[0];
     registerUser(data.email, data.password)
       .then(() => {
+        //store image and get photoURL
+        const formdata = new FormData();
+        formdata.append("image", profileImg);
+
+        const ImageApiURL = `https://api.imgbb.com/1/upload?&key=${
+          import.meta.env.VITE_Image_Host_Key
+        }`;
+        axios.post(ImageApiURL, formdata).then((res) => {
+          const userProfile = {
+            displayName: data.name,
+            photoURL: res.data.data.url,
+          };
+
+          updateUserProfile(userProfile)
+            .then(() => {})
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+
         Swal.fire({
           position: "center",
           icon: "success",
