@@ -27,7 +27,6 @@ const MyIssues = () => {
   const [selectedIssues, setSelectedIssues] = useState(null);
 
   const handelDeleteIssue = (id) => {
-    console.log("delete id:", id);
 
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -54,7 +53,7 @@ const MyIssues = () => {
 
               swalWithBootstrapButtons.fire({
                 title: "Deleted!",
-                text: "Your parcel request has been deleted.",
+                text: "Your Issue Report has been deleted.",
                 icon: "success",
               });
             }

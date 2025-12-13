@@ -1,8 +1,8 @@
 import React from "react";
 import { AiOutlineIssuesClose } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
-import { FaRegUserCircle, FaUsers } from "react-icons/fa";
-import { MdReportGmailerrorred } from "react-icons/md";
+import { FaArrowLeft, FaHome, FaRegUserCircle, FaUsers } from "react-icons/fa";
+import { MdAssuredWorkload, MdReportGmailerrorred } from "react-icons/md";
 import { Link, NavLink, Outlet } from "react-router";
 
 const DashboardLayout = () => {
@@ -54,29 +54,30 @@ const DashboardLayout = () => {
               {/* List item */}
               <li>
                 <Link
-                  to={"/"}
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  to="/"
+                  className="flex items-center gap-3 is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Homepage"
                 >
-                  {/* Home icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    fill="none"
-                    stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
-                  >
-                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                    <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  </svg>
+                  <FaArrowLeft></FaArrowLeft>
                   <span className="is-drawer-close:hidden">HomePage</span>
                 </Link>
               </li>
 
               {/* Our Dashboard Links */}
+              <li>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Dashboard Home"
+                  to={"/dashboard"}
+                  end
+                >
+                  <FaHome>
+                    stroke="currentColor" className="my-1.5 inline-block size-4"
+                  </FaHome>
+                  <span className="is-drawer-close:hidden">Dashboard Home</span>
+                </NavLink>
+              </li>
+
               <li>
                 <NavLink
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
@@ -125,7 +126,24 @@ const DashboardLayout = () => {
                   <FaUsers>
                     stroke="currentColor" className="my-1.5 inline-block size-4"
                   </FaUsers>
-                  <span className="is-drawer-close:hidden">User Management</span>
+                  <span className="is-drawer-close:hidden">
+                    User Management
+                  </span>
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Staff Management"
+                  to={"/dashboard/staff-management"}
+                >
+                  <MdAssuredWorkload>
+                    stroke="currentColor" className="my-1.5 inline-block size-4"
+                  </MdAssuredWorkload>
+                  <span className="is-drawer-close:hidden">
+                    Staff Management
+                  </span>
                 </NavLink>
               </li>
 

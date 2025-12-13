@@ -86,12 +86,6 @@ const UserManagement = () => {
                 });
               }
             });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire({
-            title: "Cancelled",
-            text: "User was not blocked.",
-            icon: "error",
-          });
         }
       });
   };
@@ -123,28 +117,22 @@ const UserManagement = () => {
                 });
               }
             });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          swalWithBootstrapButtons.fire({
-            title: "Cancelled",
-            text: "User remains blocked.",
-            icon: "error",
-          });
         }
       });
   };
 
   return (
     <div className="min-h-screen p-8">
-      <h1 className="font-bold text-4xl">User Management</h1>
+      <h1 className="font-bold text-4xl mb-6">User Management</h1>
 
-      <div className="overflow-x-auto mt-10">
-        <table className="table table-zebra">
+      <div className="overflow-x-auto">
+        <table className="table">
           <thead>
             <tr>
-              <th>SL No.</th>
-              <th>Name</th>
+              <th>Sl No.</th>
+              <th>User</th>
+              <th>Email</th>
               <th>Role</th>
-              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -153,51 +141,72 @@ const UserManagement = () => {
             {users.map((user, index) => (
               <tr key={user._id}>
                 <th>{index + 1}</th>
-                <td>{user?.displayName}</td>
-                <td>{user?.role}</td>
-                <td>{user?.status}</td>
 
-                <td className="flex items-center gap-2">
-                  {user.status === "Blocked" && (
-                    <div className="tooltip" data-tip="Unblock User">
-                      <button
-                        onClick={() => handleUnblockUser(user)}
-                        className="btn btn-primary text-black"
+                <td>
+                  <div className="flex items-center gap-3">
+                    <div className="avatar">
+                      <div className="mask mask-squircle h-12 w-12">
+                        <img src={user.photoURL} alt={user.displayName} />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="font-bold">{user.displayName}</div>
+                      <span
+                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-semibold rounded-full border
+      ${
+        user.status === "Blocked"
+          ? "bg-red-50 text-red-600 border-red-200"
+          : "bg-emerald-50 text-emerald-600 border-emerald-200"
+      }
+    `}
                       >
-                        <CgUnblock />
+                        {user.status}
+                      </span>
+                    </div>
+                  </div>
+                </td>
+
+                <td className="font-semibold">{user.email}</td>
+
+                <td className="font-bold capitalize">{user.role}</td>
+                <td className="flex gap-2">
+                  {user.role !== "admin" ? (
+                    <div className="tooltip" data-tip="Make Admin">
+                      <button
+                        onClick={() => handleMakeAdmin(user)}
+                        className="btn btn-sm btn-success"
+                      >
+                        <FaUserPlus />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="tooltip" data-tip="Remove Admin">
+                      <button
+                        onClick={() => handleRemoveAdmin(user)}
+                        className="btn btn-sm btn-warning"
+                      >
+                        <FaUserSlash />
                       </button>
                     </div>
                   )}
 
-                  {user.role === "user" && user.status !== "Blocked" && (
-                    <>
-                      <div className="tooltip" data-tip="Make Admin">
-                        <button
-                          onClick={() => handleMakeAdmin(user)}
-                          className="btn btn-primary text-black"
-                        >
-                          <FaUserPlus />
-                        </button>
-                      </div>
-
-                      <div className="tooltip" data-tip="Block User">
-                        <button
-                          onClick={() => handleBlockUser(user)}
-                          className="btn btn-primary text-black"
-                        >
-                          <MdOutlineBlock />
-                        </button>
-                      </div>
-                    </>
-                  )}
-
-                  {user.role === "admin" && (
-                    <div className="tooltip" data-tip="Remove Admin">
+                  {user.status === "Blocked" ? (
+                    <div className="tooltip" data-tip="Unblock User">
                       <button
-                        onClick={() => handleRemoveAdmin(user)}
-                        className="btn btn-primary text-black"
+                        onClick={() => handleUnblockUser(user)}
+                        className="btn btn-sm btn-info"
                       >
-                        <FaUserSlash />
+                        <CgUnblock />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="tooltip" data-tip="Block User">
+                      <button
+                        onClick={() => handleBlockUser(user)}
+                        className="btn btn-sm btn-error"
+                      >
+                        <MdOutlineBlock />
                       </button>
                     </div>
                   )}

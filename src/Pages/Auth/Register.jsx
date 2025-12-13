@@ -90,7 +90,7 @@ const Register = () => {
             className="input bg-green-200"
             placeholder="Your Name"
           />
-          {errors.email?.type === "required" && (
+          {errors.name?.type === "required" && (
             <p className="text-red-200 text-sm font-medium mt-1">
               Name is Required
             </p>
@@ -104,7 +104,7 @@ const Register = () => {
             className="file-input bg-green-200"
             placeholder="Your Photo"
           />
-          {errors.email?.type === "required" && (
+          {errors.photo?.type === "required" && (
             <p className="text-red-200 text-sm font-medium mt-1">
               Photo is Required
             </p>
