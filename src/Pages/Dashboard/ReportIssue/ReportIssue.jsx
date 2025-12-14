@@ -37,6 +37,8 @@ const ReportIssue = () => {
       description: data.description,
       category: data.category,
       image: imageUrl,
+      Priority: 'Normal',
+      VoteCount: 0,
       IssueStatus: 'Pending',
       location: data.location,
       date: new Date().toISOString(),

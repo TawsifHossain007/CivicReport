@@ -122,10 +122,10 @@ const MyIssues = () => {
   };
 
   return (
-    <div className=" my-20">
-      <h1>My Issues</h1>
+    <div className=" p-8">
+      <h1 className="font-bold text-3xl">My Issues</h1>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mt-15">
         <table className="table table-zebra">
           {/* head */}
           <thead>
