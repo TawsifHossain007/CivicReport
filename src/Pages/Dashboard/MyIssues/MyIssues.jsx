@@ -191,27 +191,6 @@ const MyIssues = () => {
 
               <form className="card-body" onSubmit={handleSubmit(handleUpdate)}>
                 <fieldset className="fieldset">
-                  {/* reporter name */}
-                  <label className="label">Reporter Name</label>
-                  <input
-                    type="text"
-                    {...register("reporterName")}
-                    readOnly
-                    defaultValue={user?.displayName}
-                    className="input w-full"
-                    placeholder="Sender Name"
-                  />
-
-                  {/* reporter email */}
-                  <label className="label">Reporter Email</label>
-                  <input
-                    type="text"
-                    {...register("reporterEmail")}
-                    defaultValue={user?.email}
-                    readOnly
-                    className="input w-full"
-                    placeholder="Sender Email"
-                  />
                   {/* TITLE */}
                   <label className="label">Title</label>
                   <input

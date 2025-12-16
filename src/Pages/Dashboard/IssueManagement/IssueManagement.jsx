@@ -104,7 +104,7 @@ const IssueManagement = () => {
                 </td>
                 <td>
                   {
-                    issue.IssueStatus === 'In Progress' ? <><span className="text-green-500 font-medium text-center">Assigned</span></> : <><button
+                    issue.staffName ? <><span className="text-green-500 font-medium text-center">Assigned</span></> : <><button
                     onClick={()=>openStaffModal(issue)}
                     className="btn btn-primary text-black"
                   >

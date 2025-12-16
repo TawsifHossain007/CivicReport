@@ -2,7 +2,9 @@ import React from "react";
 import { AiOutlineIssuesClose } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { FaArrowLeft, FaFile, FaHome, FaRegUserCircle, FaUserCircle, FaUsers } from "react-icons/fa";
+import { IoBriefcase } from "react-icons/io5";
 import { MdAssuredWorkload, MdReportGmailerrorred } from "react-icons/md";
+import { PiWarningCircleFill } from "react-icons/pi";
 import { Link, NavLink, Outlet } from "react-router";
 
 const DashboardLayout = () => {
@@ -126,9 +128,9 @@ const DashboardLayout = () => {
                   data-tip="Report Issues"
                   to={"/dashboard/report-issue"}
                 >
-                  <MdReportGmailerrorred>
+                  <PiWarningCircleFill>
                     stroke="currentColor" className="my-1.5 inline-block size-4"
-                  </MdReportGmailerrorred>
+                  </PiWarningCircleFill>
                   <span className="is-drawer-close:hidden">Report Issues</span>
                 </NavLink>
               </li>
@@ -159,6 +161,21 @@ const DashboardLayout = () => {
                   </MdAssuredWorkload>
                   <span className="is-drawer-close:hidden">
                     Staff Management
+                  </span>
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Assigned Issues"
+                  to={"/dashboard/assigned-issues"}
+                >
+                  <IoBriefcase>
+                    stroke="currentColor" className="my-1.5 inline-block size-4"
+                  </IoBriefcase>
+                  <span className="is-drawer-close:hidden">
+                    Assigned Issues
                   </span>
                 </NavLink>
               </li>

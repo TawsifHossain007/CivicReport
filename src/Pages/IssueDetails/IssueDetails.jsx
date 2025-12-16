@@ -58,6 +58,7 @@ const IssueDetails = () => {
     reporterName,
     reporterEmail,
     date,
+    staffName,
   } = issue;
 
   const handelDeleteIssue = (id) => {
@@ -172,19 +173,21 @@ const IssueDetails = () => {
           <div className="flex flex-wrap gap-2">
             <span className="badge badge-outline text-sm">{category}</span>
 
-            {IssueStatus === "Pending" && (
+            {IssueStatus === "Pending" ? (
               <span className="badge badge-warning badge-outline">Pending</span>
-            )}
-            {IssueStatus === "Resolved" && (
-              <span className="badge badge-success badge-outline">
-                Resolved
-              </span>
-            )}
-            {IssueStatus === "In Progress" && (
+            ) : IssueStatus === "In Progress" ? (
               <span className="badge badge-info badge-outline">
                 In Progress
               </span>
-            )}
+            ) : IssueStatus === "Working" ? (
+              <span className="badge badge-primary badge-outline">Working</span>
+            ) : IssueStatus === "Resolved" ? (
+              <span className="badge badge-success badge-outline">
+                Resolved
+              </span>
+            ) : IssueStatus === "Closed" ? (
+              <span className="badge badge-neutral badge-outline">Closed</span>
+            ) : null}
 
             {Priority === "High" ? (
               <span className="badge badge-error badge-outline">
@@ -271,12 +274,66 @@ const IssueDetails = () => {
             </p>
           </li>
 
-          <li>
-            <p className="text-sm text-gray-500">Status</p>
-            <p className="text-gray-700">
-              Current status: <b>{IssueStatus}</b>
-            </p>
-          </li>
+          {IssueStatus !== "Pending" && (
+            <li>
+              <p className="text-sm text-gray-500">Assigned</p>
+              <p className="text-gray-700">
+                Issue was assigned to <b>{staffName}</b>
+              </p>
+            </li>
+          )}
+
+          {IssueStatus === "Working" && (
+            <li>
+              <p className="text-sm text-gray-500">Update</p>
+              <p className="text-gray-700">
+                Work Marked as <b>Working</b>
+              </p>
+            </li>
+          )}
+
+          {IssueStatus === "Resolved" && (
+            <>
+              <li>
+                <p className="text-sm text-gray-500">Update</p>
+                <p className="text-gray-700">
+                  Work Marked as <b>Working</b>
+                </p>
+              </li>
+
+              <li>
+                <p className="text-sm text-gray-500">Update</p>
+                <p className="text-gray-700">
+                  Work Marked as <b>Resolved</b>
+                </p>
+              </li>
+            </>
+          )}
+
+          {IssueStatus === "Closed" && (
+            <>
+              <li>
+                <p className="text-sm text-gray-500">Update</p>
+                <p className="text-gray-700">
+                  Work Marked as <b>Working</b>
+                </p>
+              </li>
+
+              <li>
+                <p className="text-sm text-gray-500">Update</p>
+                <p className="text-gray-700">
+                  Work Marked as <b>Resolved</b>
+                </p>
+              </li>
+
+              <li>
+                <p className="text-sm text-gray-500">Update</p>
+                <p className="text-gray-700">
+                  Work Marked as <b>Closed</b>
+                </p>
+              </li>
+            </>
+          )}
 
           <li>
             <p className="text-sm text-gray-500">Priority</p>

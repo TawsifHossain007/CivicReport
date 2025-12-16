@@ -446,20 +446,6 @@ const StaffManagement = () => {
                     Photo is Required
                   </p>
                 )}
-
-                {/* Email */}
-                <label className="label">Email</label>
-                <input
-                  type="email"
-                  {...register("email")}
-                  className="input bg-green-200"
-                  placeholder="Email"
-                />
-                {errors.email?.type === "required" && (
-                  <p className="text-red-500 text-sm font-medium mt-1">
-                    Email is Required
-                  </p>
-                )}
                 <button type="submit" className="btn btn-neutral mt-4">
                   Update Staff
                 </button>

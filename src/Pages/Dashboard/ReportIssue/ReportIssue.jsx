@@ -6,6 +6,9 @@ import ReportImg from "../../../assets/Report-removebg-preview.png";
 import useAxiosSecure from "../../../hooks/useAuth/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth/useAuth";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../../../Components/Loading/Loading";
+import Blocked from "../../../Components/Blocked/Blocked";
 
 const ReportIssue = () => {
   const {
@@ -17,6 +20,19 @@ const ReportIssue = () => {
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+
+  const { data: currentUser = {}, isLoading } = useQuery({
+    queryKey: ["current-user", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user.email}/role`);
+      return res.data;
+    },
+  });
+
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
 
   const handleReport = async (data) => {
     const imageFile = data.photo[0];
@@ -31,15 +47,15 @@ const ReportIssue = () => {
     const imageUrl = imgRes.data.data.url;
 
     const issueData = {
-      reporterName : data.reporterName,
-      reporterEmail: data.reporterEmail, 
+      reporterName: data.reporterName,
+      reporterEmail: data.reporterEmail,
       title: data.title,
       description: data.description,
       category: data.category,
       image: imageUrl,
-      Priority: 'Normal',
+      Priority: "Normal",
       VoteCount: 0,
-      IssueStatus: 'Pending',
+      IssueStatus: "Pending",
       location: data.location,
       date: new Date().toISOString(),
     };
@@ -89,123 +105,131 @@ const ReportIssue = () => {
   };
 
   return (
-    <div className="flex flex-row-reverse items-center justify-center my-20 mx-15">
-      <div className=" card bg-white  w-full mx-auto max-w-lg shadow-2xl p-6">
-        <h3 className="text-center font-semibold text-3xl text-secondary">
-          Report an Issue
-        </h3>
-        <p className="text-center pt-3">Help us keep the community better</p>
+    <div>
+      {currentUser.status === "Blocked" ? (
+        <Blocked></Blocked>
+      ) : (
+        <div className="flex flex-row-reverse items-center justify-center my-20 mx-15">
+          <div className=" card bg-white  w-full mx-auto max-w-lg shadow-2xl p-6">
+            <h3 className="text-center font-semibold text-3xl text-secondary">
+              Report an Issue
+            </h3>
+            <p className="text-center pt-3">
+              Help us keep the community better
+            </p>
 
-        <form className="card-body" onSubmit={handleSubmit(handleReport)}>
-          <fieldset className="fieldset">
-            {/* reporter name */}
-            <label className="label">Reporter Name</label>
-            <input
-              type="text"
-              {...register("reporterName")}
-              readOnly
-              defaultValue={user?.displayName}
-              className="input w-full"
-              placeholder="Sender Name"
+            <form className="card-body" onSubmit={handleSubmit(handleReport)}>
+              <fieldset className="fieldset">
+                {/* reporter name */}
+                <label className="label">Reporter Name</label>
+                <input
+                  type="text"
+                  {...register("reporterName")}
+                  readOnly
+                  defaultValue={user?.displayName}
+                  className="input w-full"
+                  placeholder="Sender Name"
+                />
+
+                {/* reporter email */}
+                <label className="label">Reporter Email</label>
+                <input
+                  type="text"
+                  {...register("reporterEmail")}
+                  defaultValue={user?.email}
+                  readOnly
+                  className="input w-full"
+                  placeholder="Sender Email"
+                />
+                {/* TITLE */}
+                <label className="label">Title</label>
+                <input
+                  type="text"
+                  className="input bg-white"
+                  placeholder="Issue Title"
+                  {...register("title", { required: true })}
+                />
+                {errors.title?.type === "required" && (
+                  <p className="text-red-200 text-sm font-medium mt-1">
+                    Title is required
+                  </p>
+                )}
+
+                {/* DESCRIPTION */}
+                <label className="label">Description</label>
+                <textarea
+                  className="textarea bg-white"
+                  placeholder="Describe the issue..."
+                  {...register("description", { required: true })}
+                ></textarea>
+                {errors.description?.type === "required" && (
+                  <p className="text-red-200 text-sm font-medium mt-1">
+                    Description is required
+                  </p>
+                )}
+
+                {/* CATEGORY */}
+                <label className="label">Category</label>
+                <select
+                  className="select bg-white"
+                  {...register("category", { required: true })}
+                >
+                  <option value="">Select a category</option>
+                  <option value="Road Damage">Road Damage</option>
+                  <option value="Water Leakage">Water Leakage</option>
+                  <option value="Garbage Overflow">Garbage Overflow</option>
+                  <option value="Streetlight Issue">Streetlight Issue</option>
+                  <option value="Other">Other</option>
+                </select>
+                {errors.category?.type === "required" && (
+                  <p className="text-red-200 text-sm font-medium mt-1">
+                    Category is required
+                  </p>
+                )}
+
+                {/* PHOTO */}
+                <label className="label">Upload Image</label>
+                <input
+                  type="file"
+                  className="file-input bg-white"
+                  {...register("photo", { required: true })}
+                />
+                {errors.photo?.type === "required" && (
+                  <p className="text-red-200 text-sm font-medium mt-1">
+                    Image is required
+                  </p>
+                )}
+
+                {/* LOCATION */}
+                <label className="label">Location</label>
+                <input
+                  type="text"
+                  className="input bg-white"
+                  placeholder="Enter location"
+                  {...register("location", { required: true })}
+                />
+                {errors.location?.type === "required" && (
+                  <p className="text-red-200 text-sm font-medium mt-1">
+                    Location is required
+                  </p>
+                )}
+
+                <button type="submit" className="btn btn-neutral mt-4">
+                  Report Issue
+                </button>
+              </fieldset>
+            </form>
+          </div>
+
+          <div>
+            <img
+              className="rounded-full border-4-b border-gray-600"
+              src={ReportImg}
+              alt=""
             />
-
-            {/* reporter email */}
-            <label className="label">Reporter Email</label>
-            <input
-              type="text"
-              {...register("reporterEmail")}
-              defaultValue={user?.email}
-              readOnly
-              className="input w-full"
-              placeholder="Sender Email"
-            />
-            {/* TITLE */}
-            <label className="label">Title</label>
-            <input
-              type="text"
-              className="input bg-white"
-              placeholder="Issue Title"
-              {...register("title", { required: true })}
-            />
-            {errors.title?.type === "required" && (
-              <p className="text-red-200 text-sm font-medium mt-1">
-                Title is required
-              </p>
-            )}
-
-            {/* DESCRIPTION */}
-            <label className="label">Description</label>
-            <textarea
-              className="textarea bg-white"
-              placeholder="Describe the issue..."
-              {...register("description", { required: true })}
-            ></textarea>
-            {errors.description?.type === "required" && (
-              <p className="text-red-200 text-sm font-medium mt-1">
-                Description is required
-              </p>
-            )}
-
-            {/* CATEGORY */}
-            <label className="label">Category</label>
-            <select
-              className="select bg-white"
-              {...register("category", { required: true })}
-            >
-              <option value="">Select a category</option>
-              <option value="Road Damage">Road Damage</option>
-              <option value="Water Leakage">Water Leakage</option>
-              <option value="Garbage Overflow">Garbage Overflow</option>
-              <option value="Streetlight Issue">Streetlight Issue</option>
-              <option value="Other">Other</option>
-            </select>
-            {errors.category?.type === "required" && (
-              <p className="text-red-200 text-sm font-medium mt-1">
-                Category is required
-              </p>
-            )}
-
-            {/* PHOTO */}
-            <label className="label">Upload Image</label>
-            <input
-              type="file"
-              className="file-input bg-white"
-              {...register("photo", { required: true })}
-            />
-            {errors.photo?.type === "required" && (
-              <p className="text-red-200 text-sm font-medium mt-1">
-                Image is required
-              </p>
-            )}
-
-            {/* LOCATION */}
-            <label className="label">Location</label>
-            <input
-              type="text"
-              className="input bg-white"
-              placeholder="Enter location"
-              {...register("location", { required: true })}
-            />
-            {errors.location?.type === "required" && (
-              <p className="text-red-200 text-sm font-medium mt-1">
-                Location is required
-              </p>
-            )}
-
-            <button type="submit" className="btn btn-neutral mt-4">
-              Report Issue
-            </button>
-          </fieldset>
-        </form>
-      </div>
-
-      <div>
-        <img
-          className="rounded-full border-4-b border-gray-600"
-          src={ReportImg}
-          alt=""
-        />
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -9,13 +9,13 @@ const MyProfile = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const {data: crntuser = []} = useQuery({
-    queryKey: ['my-profile',user?.email],
-    queryFn: async() => {
-        const res = await axiosSecure.get(`/users/${user?.email}`)
-        return res.data
-    }
-  })
+  const { data: crntuser = [] } = useQuery({
+    queryKey: ["my-profile", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user?.email}`);
+      return res.data;
+    },
+  });
 
   const handleSubscribe = async () => {
     Swal.fire({
@@ -27,7 +27,7 @@ const MyProfile = () => {
       cancelButtonText: "Cancel",
     }).then(async (result) => {
       if (result.isConfirmed) {
-       console.log('Payment er work here')
+        console.log("Payment er work here");
       }
     });
   };
@@ -36,13 +36,11 @@ const MyProfile = () => {
     <div className="max-w-3xl mx-auto mt-10 min-h-screen">
       <div className="rounded-2xl shadow-xl p-8 bg-linear-to-br from-white via-green-50 to-green-100 backdrop-blur-md">
         <div className="flex flex-col items-center gap-4">
-
           <img
             src={crntuser?.photoURL}
             alt="profile"
             className="w-28 h-28 rounded-full shadow-md border-2 border-green-300"
           />
-
 
           <h2 className="text-3xl font-semibold flex items-center gap-2">
             {crntuser?.displayName}
@@ -55,7 +53,7 @@ const MyProfile = () => {
           </h2>
           <p className="text-gray-700 text-lg">{crntuser?.email}</p>
 
-          <div className="mt-1">
+          <div className="mt-1 flex flex-col items-center">
             <span
               className={
                 crntuser?.status === "Premium"
@@ -69,6 +67,15 @@ const MyProfile = () => {
             >
               {crntuser?.status || "Regular"}
             </span>
+            {crntuser.status === "Blocked" && (
+              <p className="text-center mt-5">
+                <span className="text-red-700 font-semibold">Warning! -- </span>
+                {"  "}
+                <span className="bg-red-700 text-white p-2 rounded-2xl">
+                  Please Contact With the Authorities.
+                </span>
+              </p>
+            )}
           </div>
 
           <div className="w-full border-t my-6 border-green-200"></div>
@@ -82,7 +89,6 @@ const MyProfile = () => {
             </p>
             <p>
               <strong>Role: {crntuser.role}</strong>{" "}
-              
             </p>
             <p>
               <strong>Joined:</strong>{" "}
