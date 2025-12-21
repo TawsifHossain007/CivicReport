@@ -24,7 +24,7 @@ const UserDashboardHome = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(`/issues?email=${user.email}`);
-      return res.data;
+      return res.data.issues;
     },
   });
 
@@ -75,7 +75,7 @@ const UserDashboardHome = () => {
           { label: "In Progress", value: inProgress, color: "text-blue-500" },
           { label: "Resolved", value: resolved, color: "text-green-500" },
            {
-            label: "Revenue",
+            label: "Payments Made",
             value: `৳ ${totalAmountReceived}`,
             sub: `${payments.length} payments`,
             color: "text-indigo-600",

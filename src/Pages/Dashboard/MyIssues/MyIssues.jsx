@@ -14,18 +14,18 @@ const MyIssues = () => {
     queryKey: ["myIssues", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/issues?email=${user.email}`);
-      return res.data;
+      return res.data.issues;
     },
   });
 
   const { data: currentUser = {} } = useQuery({
-      queryKey: ["current-user", user?.email],
-      enabled: !!user?.email,
-      queryFn: async () => {
-        const res = await axiosSecure.get(`/users/${user.email}/role`);
-        return res.data;
-      },
-    });
+    queryKey: ["current-user", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user.email}/role`);
+      return res.data;
+    },
+  });
 
   const {
     reset,
@@ -35,6 +35,23 @@ const MyIssues = () => {
   } = useForm();
 
   const [selectedIssues, setSelectedIssues] = useState(null);
+  const [filter, setFilter] = useState("");
+  const issueModalRef = useRef();
+
+  const statusOrder = [
+    "Pending",
+    "In-Progress",
+    "Working",
+    "Resolved",
+    "Closed",
+  ];
+  const categoryOrder = [
+    "Road Damage",
+    "Water Leakage",
+    "Garbage Overflow",
+    "Streetlight Issue",
+    "Other",
+  ];
 
   const handelDeleteIssue = (id) => {
     const swalWithBootstrapButtons = Swal.mixin({
@@ -59,7 +76,6 @@ const MyIssues = () => {
           axiosSecure.delete(`/issues/${id}`).then((res) => {
             if (res.data.deletedCount) {
               refetch();
-
               swalWithBootstrapButtons.fire({
                 title: "Deleted!",
                 text: "Your Issue Report has been deleted.",
@@ -67,10 +83,7 @@ const MyIssues = () => {
               });
             }
           });
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire({
             title: "Cancelled",
             text: "Report has not been deleted",
@@ -88,11 +101,9 @@ const MyIssues = () => {
     const ImageApiURL = `https://api.imgbb.com/1/upload?key=${
       import.meta.env.VITE_Image_Host_Key
     }`;
-
     const imgRes = await axios.post(ImageApiURL, formData);
     const imageUrl = imgRes.data.data.url;
 
-    // Prepare issue data
     const issueData = {
       reporterName: data.reporterName,
       reporterEmail: data.reporterEmail,
@@ -122,69 +133,110 @@ const MyIssues = () => {
       });
   };
 
-  const issueModalRef = useRef();
-
   const openIssueEditModal = (issue) => {
     setSelectedIssues(issue);
     reset(issue);
     issueModalRef.current.showModal();
   };
 
+  const filteredIssues = [...issues].sort((a, b) => {
+    if (filter === "Status") {
+      return (
+        statusOrder.indexOf(a.IssueStatus) - statusOrder.indexOf(b.IssueStatus)
+      );
+    } else if (filter === "Category") {
+      return (
+        categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category)
+      );
+    }
+    return 0;
+  });
+
   return (
-    <div className=" p-8">
+    <div className="p-8">
       <h1 className="font-bold text-3xl">My Issues</h1>
+
+      <div className="dropdown dropdown-center mt-10">
+        <div tabIndex={0} role="button" className="btn m-1">
+          Filter by S/C :
+        </div>
+        <ul
+          tabIndex="-1"
+          className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+        >
+          <li>
+            <a onClick={() => setFilter("Category")}>Category</a>
+          </li>
+          <li>
+            <a onClick={() => setFilter("Status")}>Status</a>
+          </li>
+          <li>
+            <a onClick={() => setFilter("")}>None</a>
+          </li>
+        </ul>
+      </div>
 
       <div className="overflow-x-auto mt-15">
         <table className="table table-zebra">
-          {/* head */}
           <thead>
             <tr>
               <th>SL No.</th>
               <th>Issue</th>
               <th>Status</th>
               <th>Category</th>
+              <th>Priority</th>
               <th>Location</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {issues.map((issue, index) => (
+            {filteredIssues.map((issue, index) => (
               <tr key={issue._id}>
                 <th>{index + 1}</th>
                 <td className="font-semibold">{issue.title}</td>
                 <td>
                   <span
                     className={`badge badge-outline
-      ${issue.IssueStatus === "Pending" && "badge-warning"}
-      ${issue.IssueStatus === "In Progress" && "badge-info"}
-      ${issue.IssueStatus === "Working" && "badge-primary"}
-      ${issue.IssueStatus === "Resolved" && "badge-success"}
-      ${issue.IssueStatus === "Closed" && "badge-neutral"}
-      ${issue.IssueStatus === "Rejected" && "badge-error"}
-    `}
+                      ${issue.IssueStatus === "Pending" && "badge-warning"}
+                      ${issue.IssueStatus === "In Progress" && "badge-info"}
+                      ${issue.IssueStatus === "Working" && "badge-primary"}
+                      ${issue.IssueStatus === "Resolved" && "badge-success"}
+                      ${issue.IssueStatus === "Closed" && "badge-neutral"}
+                      ${issue.IssueStatus === "Rejected" && "badge-error"}
+                    `}
                   >
                     {issue.IssueStatus}
                   </span>
                 </td>
                 <td className="font-semibold">{issue.category}</td>
+                <td
+                  className={`font-bold ${
+                    issue.Priority === "High"
+                      ? "text-red-600"
+                      : "text-green-600"
+                  }`}
+                >
+                  {issue.Priority}
+                </td>
                 <td>{issue.location}</td>
-                <td>
+                <td className="flex flex-col md:flex-row items-center justify-center gap-2">
                   <button
                     onClick={() => handelDeleteIssue(issue._id)}
-                    className="btn btn-primary text-black mx-2"
+                    className="btn btn-primary text-black"
                   >
                     Delete
                   </button>
-                  {issue.IssueStatus === "Pending" && currentUser.status !== 'Blocked' && (
-                    <button
-                      onClick={() => openIssueEditModal(issue)}
-                      className="btn btn-primary text-black mx-2"
-                    >
-                      Edit
-                    </button>
-                  )}
+                  {issue.IssueStatus === "Pending" &&
+                    currentUser.status !== "Blocked" && (
+                      <button
+                        onClick={() => openIssueEditModal(issue)}
+                        className="btn btn-primary text-black"
+                      >
+                        Edit
+                      </button>
+                    )}
                   <Link to={`/issue-details/${issue._id}`}>
-                    <button className="btn mx-2 btn-primary text-black">
+                    <button className="btn btn-primary text-black">
                       View Details
                     </button>
                   </Link>
@@ -194,14 +246,14 @@ const MyIssues = () => {
           </tbody>
         </table>
       </div>
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
+
       <dialog
         ref={issueModalRef}
         className="modal modal-bottom sm:modal-middle"
       >
         <div className="modal-box">
           <div>
-            <div className=" card bg-white  w-full mx-auto max-w-lg shadow-2xl p-6">
+            <div className="card bg-white w-full mx-auto max-w-lg shadow-2xl p-6">
               <h3 className="text-center font-semibold text-3xl text-secondary">
                 Update Issue
               </h3>
@@ -211,7 +263,6 @@ const MyIssues = () => {
 
               <form className="card-body" onSubmit={handleSubmit(handleUpdate)}>
                 <fieldset className="fieldset">
-                  {/* TITLE */}
                   <label className="label">Title</label>
                   <input
                     defaultValue={selectedIssues?.title}
@@ -226,7 +277,6 @@ const MyIssues = () => {
                     </p>
                   )}
 
-                  {/* DESCRIPTION */}
                   <label className="label">Description</label>
                   <textarea
                     defaultValue={selectedIssues?.description}
@@ -240,7 +290,6 @@ const MyIssues = () => {
                     </p>
                   )}
 
-                  {/* CATEGORY */}
                   <label className="label">Category</label>
                   <select
                     defaultValue={selectedIssues?.category}
@@ -260,7 +309,6 @@ const MyIssues = () => {
                     </p>
                   )}
 
-                  {/* PHOTO */}
                   <label className="label">Upload Image</label>
                   <input
                     type="file"
@@ -273,7 +321,6 @@ const MyIssues = () => {
                     </p>
                   )}
 
-                  {/* LOCATION */}
                   <label className="label">Location</label>
                   <input
                     defaultValue={selectedIssues?.location}
@@ -297,7 +344,6 @@ const MyIssues = () => {
           </div>
           <div className="modal-action">
             <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
               <button className="btn">Close</button>
             </form>
           </div>

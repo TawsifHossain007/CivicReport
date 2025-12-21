@@ -8,23 +8,64 @@ import Loading from "../../Components/Loading/Loading";
 const AllIssues = () => {
   const axiosSecure = useAxiosSecure();
   const [searchText, setSearchText] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const [filter, setFilter] = useState("");
+  const limit = 9;
 
   const { data: issues, isLoading } = useQuery({
-    queryKey: ["all-issues", searchText, filter],
+    queryKey: ["all-issues", searchText, currentPage, filter],
     initialData: [],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/issues?searchText=${searchText}&filter=${filter}`
+        `/issues?searchText=${searchText}&filter=${filter}&limit=${limit}&skip=${
+          currentPage * limit
+        }`
       );
-      return res.data;
+
+      const { issues, total } = res.data;
+
+      setTotalPages(Math.ceil(total / limit));
+
+      return issues.sort((a, b) => {
+       
+        if (a.Priority === "High" && b.Priority !== "High") return -1;
+        if (a.Priority !== "High" && b.Priority === "High") return 1;
+
+        if (filter === "Status") {
+          const statusOrder = [
+            "Pending",
+            "In-Progress",
+            "Working",
+            "Resolved",
+            "Closed",
+          ];
+          return (
+            statusOrder.indexOf(a.IssueStatus) -
+            statusOrder.indexOf(b.IssueStatus)
+          );
+        } else if (filter === "Category") {
+          const categoryOrder = [
+            "Road Damage",
+            "Water Leakage",
+            "Garbage Overflow",
+            "Streetlight Issue",
+            "Other",
+          ];
+          return (
+            categoryOrder.indexOf(a.category) -
+            categoryOrder.indexOf(b.category)
+          );
+        }
+
+        return 0;
+      });
     },
   });
 
   if (isLoading) {
     return <Loading></Loading>;
   }
-  console.log(issues);
 
   return (
     <div className="min-h-screen max-w-11/12 mx-auto mb-20">
@@ -42,7 +83,7 @@ const AllIssues = () => {
         </p>
       </motion.div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row items-center justify-between">
         <label className="input mb-10 mt-10">
           <svg
             className="h-[1em] opacity-50"
@@ -61,7 +102,10 @@ const AllIssues = () => {
             </g>
           </svg>
           <input
-            onChange={(e) => setSearchText(e.target.value)}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+              setCurrentPage(0);
+            }}
             type="search"
             className="grow"
             placeholder="Search Issues"
@@ -70,7 +114,7 @@ const AllIssues = () => {
 
         <div className="dropdown dropdown-center">
           <div tabIndex={0} role="button" className="btn m-1">
-            Filter by :
+            Filter by P/S/C :
           </div>
           <ul
             tabIndex="-1"
@@ -116,6 +160,34 @@ const AllIssues = () => {
           </div>
         ))}
       </motion.div>
+      <div className="flex justify-center items-center gap-2 flex-wrap mt-10">
+        {currentPage > 0 && (
+          <button
+            onClick={() => setCurrentPage(currentPage - 1)}
+            className="btn"
+          >
+            Prev
+          </button>
+        )}
+        {[...Array(totalPages).keys()].map((i) => (
+          <button
+            onClick={() => setCurrentPage(i)}
+            className={`btn ${
+              currentPage === i ? "btn-primary" : ""
+            } text-black`}
+          >
+            {i + 1}
+          </button>
+        ))}
+        {currentPage < totalPages - 1 && (
+          <button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            className="btn"
+          >
+            Next
+          </button>
+        )}
+      </div>
     </div>
   );
 };

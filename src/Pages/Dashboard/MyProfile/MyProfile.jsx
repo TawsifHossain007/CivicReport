@@ -58,40 +58,47 @@ const MyProfile = () => {
   };
 
   const handleUpdateUser = async (data) => {
-    const imageFile = data.photo[0];
-    const formData = new FormData();
-    formData.append("image", imageFile);
+  const imageFile = data.photo[0];
+  const formData = new FormData();
+  formData.append("image", imageFile);
 
-    const ImageApiURL = `https://api.imgbb.com/1/upload?key=${
-      import.meta.env.VITE_Image_Host_Key
-    }`;
+  const ImageApiURL = `https://api.imgbb.com/1/upload?key=${
+    import.meta.env.VITE_Image_Host_Key
+  }`;
 
-    const imgRes = await axios.post(ImageApiURL, formData);
-    const imageUrl = imgRes.data.data.url;
+  const imgRes = await axios.post(ImageApiURL, formData);
+  const imageUrl = imgRes.data.data.url;
 
-    //prepare data
-    const staffData = {
-      contact: data.contact,
-      photoURL: imageUrl,
-      displayName: data.name,
-    };
-    await updateUserProfile({ displayName: data.name, imageUrl });
-
-    axiosSecure.patch(`/users/${crntuser._id}`, staffData).then((res) => {
-      if (res.data.modifiedCount > 0) {
-        Swal.fire({
-          position: "Center",
-          icon: "success",
-          title: "Staff Information Has Been Updated",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-                updateUserModalRef.current.close();
-
-        refetch();
-      }
-    });
+  // prepare data
+  const userData = {
+    contact: data.contact,
+    photoURL: imageUrl,
+    displayName: data.name,
   };
+
+  await updateUserProfile({ displayName: data.name, imageUrl });
+
+  // choose endpoint based on role
+  const endpoint =
+    crntuser.role === "staff"
+      ? `/staffs/${crntuser._id}` 
+      : `/users/${crntuser._id}`; 
+
+  axiosSecure.patch(endpoint, userData).then((res) => {
+    if (res.data.modifiedCount > 0) {
+      Swal.fire({
+        position: "Center",
+        icon: "success",
+        title: "Information Has Been Updated",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      updateUserModalRef.current.close();
+      refetch();
+    }
+  });
+};
+
 
     const {
       reset,
@@ -166,7 +173,8 @@ const MyProfile = () => {
 
           <div className="w-full border-t my-6 border-green-200"></div>
           {/* Update Profile Button */}
-          <button onClick={()=>openUpdateUserModal(crntuser)} className="btn bg-green-600 text-white hover:bg-green-700">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 ">
+              <button onClick={()=>openUpdateUserModal(crntuser)} className="btn bg-green-600 text-white hover:bg-green-700">
             Update Profile
           </button>
           {/* Buttons */}
@@ -185,6 +193,8 @@ const MyProfile = () => {
               </div>
             </>
           )}
+          </div>
+          
         </div>
       </div>
        {/* Update Modal */}
@@ -232,7 +242,7 @@ const MyProfile = () => {
                     Photo is Required
                   </p>
                 )}
-                <button onClick={handleUpdateUser} type="submit" className="btn btn-neutral mt-4">
+                <button type="submit" className="btn btn-neutral mt-4">
                   Update Staff
                 </button>
               </fieldset>

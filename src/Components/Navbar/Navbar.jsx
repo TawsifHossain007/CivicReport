@@ -71,7 +71,7 @@ const Navbar = () => {
             </ul>
           </div>
 
-          <span className="btn btn-ghost text-xl">
+          <span className="btn btn-ghost text-xl hidden md:block">
             <Logo />
           </span>
         </div>

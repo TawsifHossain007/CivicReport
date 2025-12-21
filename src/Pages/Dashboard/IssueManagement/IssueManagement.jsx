@@ -10,7 +10,7 @@ const IssueManagement = () => {
     queryKey: ["issue-management"],
     queryFn: async () => {
       const res = await axiosSecure.get("/issues");
-      return res.data;
+      return res.data.issues;
     },
   });
 
@@ -148,7 +148,7 @@ const IssueManagement = () => {
                     {issue.Priority}
                   </span>
                 </td>
-                <td>
+                <td className="flex flex-col md:flex-row items-center gap-2">
                   {issue.staffName ? (
                     <>
                       <span className="text-green-500 font-medium text-center">

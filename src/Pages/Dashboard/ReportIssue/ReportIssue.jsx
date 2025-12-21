@@ -92,7 +92,7 @@ const ReportIssue = () => {
             }
           });
         } else if (
-          /* Read more about handling dismissals below */
+         
           result.dismiss === Swal.DismissReason.cancel
         ) {
           swalWithBootstrapButtons.fire({
@@ -223,7 +223,7 @@ const ReportIssue = () => {
 
           <div>
             <img
-              className="rounded-full border-4-b border-gray-600"
+              className="rounded-full border-4-b border-gray-600 hidden md:block"
               src={ReportImg}
               alt=""
             />

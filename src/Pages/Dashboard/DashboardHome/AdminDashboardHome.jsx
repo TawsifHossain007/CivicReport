@@ -10,7 +10,7 @@ const AdminDashboardHome = () => {
     queryKey: ["issues"],
     queryFn: async () => {
       const res = await axiosSecure.get("/issues");
-      return res.data;
+      return res.data.issues;
     },
   });
 

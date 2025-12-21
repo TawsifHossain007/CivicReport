@@ -13,7 +13,7 @@ const AuthLayout = () => {
         <div className="flex-1">
           <Outlet></Outlet>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 hidden md:block">
           <img className="h-800px] w-[1200px]"
             src={mechanicImg}
             alt=""
