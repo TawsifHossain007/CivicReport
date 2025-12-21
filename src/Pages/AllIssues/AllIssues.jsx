@@ -7,25 +7,23 @@ import Loading from "../../Components/Loading/Loading";
 
 const AllIssues = () => {
   const axiosSecure = useAxiosSecure();
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
+  const [filter, setFilter] = useState("");
 
   const { data: issues, isLoading } = useQuery({
-    queryKey: ["all-issues", searchText],
+    queryKey: ["all-issues", searchText, filter],
     initialData: [],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/issues?searchText=${searchText}`);
-      return res.data
-      .sort((a, b) => {
-        if (a.Priority === "High" && b.Priority !== "High") return -1;
-        if (a.Priority !== "High" && b.Priority === "High") return 1;
-        return 0;
-      });
+      const res = await axiosSecure.get(
+        `/issues?searchText=${searchText}&filter=${filter}`
+      );
+      return res.data;
     },
   });
 
-  // if (isLoading) {
-  //   return <Loading></Loading>;
-  // }  
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
   console.log(issues);
 
   return (
@@ -44,25 +42,52 @@ const AllIssues = () => {
         </p>
       </motion.div>
 
-       <label className="input mb-10 mt-10">
-        <svg
-          className="h-[1em] opacity-50"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-        >
-          <g
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            strokeWidth="2.5"
-            fill="none"
-            stroke="currentColor"
+      <div className="flex items-center justify-between">
+        <label className="input mb-10 mt-10">
+          <svg
+            className="h-[1em] opacity-50"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
           >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </g>
-        </svg>
-        <input onChange={(e)=> setSearchText(e.target.value)} type="search" className="grow" placeholder="Search Issues" />
-      </label>
+            <g
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              strokeWidth="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </g>
+          </svg>
+          <input
+            onChange={(e) => setSearchText(e.target.value)}
+            type="search"
+            className="grow"
+            placeholder="Search Issues"
+          />
+        </label>
+
+        <div className="dropdown dropdown-center">
+          <div tabIndex={0} role="button" className="btn m-1">
+            Filter by :
+          </div>
+          <ul
+            tabIndex="-1"
+            className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+          >
+            <li>
+              <a onClick={() => setFilter("Priority")}>Priority</a>
+            </li>
+            <li>
+              <a onClick={() => setFilter("Category")}>Category</a>
+            </li>
+            <li>
+              <a onClick={() => setFilter("Status")}>Status</a>
+            </li>
+          </ul>
+        </div>
+      </div>
 
       {/* Cards stagger animation */}
       <motion.div
