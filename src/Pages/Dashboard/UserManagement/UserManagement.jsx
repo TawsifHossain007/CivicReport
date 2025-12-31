@@ -5,17 +5,22 @@ import { FaUserPlus, FaUserSlash } from "react-icons/fa";
 import { MdOutlineBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import Swal from "sweetalert2";
+import Loading from "../../../Components/Loading/Loading";
 
 const UserManagement = () => {
   const axiosSecure = useAxiosSecure();
 
-  const { refetch, data: users = [] } = useQuery({
+  const { refetch, data: users = [],isLoading } = useQuery({
     queryKey: ["user-management"],
     queryFn: async () => {
       const res = await axiosSecure.get("/users");
       return res.data;
     },
   });
+
+  if(isLoading){
+    return <Loading></Loading>
+  }
 
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
