@@ -9,12 +9,13 @@ import {
   FaUserCircle,
   FaUsers,
 } from "react-icons/fa";
-import { IoBriefcase } from "react-icons/io5";
-import { MdAssuredWorkload, MdReportGmailerrorred } from "react-icons/md";
+import { IoBriefcase, IoBriefcaseOutline, IoHomeOutline, IoWarningOutline } from "react-icons/io5";
+import { MdAssuredWorkload, MdAttachMoney, MdOutlineAttachMoney, MdReportGmailerrorred } from "react-icons/md";
 import { PiWarningCircleFill } from "react-icons/pi";
 import { Link, NavLink, Outlet } from "react-router";
 import useRole from "../../hooks/useRole/useRole";
-import { HiCurrencyBangladeshi, HiCurrencyDollar } from "react-icons/hi";
+import { HiCurrencyBangladeshi, HiCurrencyDollar, HiOutlineUserGroup } from "react-icons/hi";
+import { CiFileOn } from "react-icons/ci";
 
 const DashboardLayout = () => {
   const { role } = useRole();
@@ -24,7 +25,7 @@ const DashboardLayout = () => {
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* Navbar */}
-          <nav className="navbarw-full bg-linear-to-r from-green-700 via-green-600 to-green-400">
+          <nav className="navbar w-full bg-linear-to-r from-green-700 via-green-600 to-green-400">
             <label
               htmlFor="my-drawer-4"
               aria-label="open sidebar"
@@ -83,9 +84,9 @@ const DashboardLayout = () => {
                   to={"/dashboard"}
                   end
                 >
-                  <FaHome>
+                  <IoHomeOutline>
                     stroke="currentColor" className="my-1.5 inline-block size-4"
-                  </FaHome>
+                  </IoHomeOutline>
                   <span className="is-drawer-close:hidden">Dashboard Home</span>
                 </NavLink>
               </li>
@@ -112,10 +113,10 @@ const DashboardLayout = () => {
                       data-tip="Report Issues"
                       to={"/dashboard/report-issue"}
                     >
-                      <PiWarningCircleFill>
+                      <IoWarningOutline>
                         stroke="currentColor" className="my-1.5 inline-block
                         size-4"
-                      </PiWarningCircleFill>
+                      </IoWarningOutline>
                       <span className="is-drawer-close:hidden">
                         Report Issues
                       </span>
@@ -135,10 +136,10 @@ const DashboardLayout = () => {
                       to={"/dashboard/issue-management"}
                       end
                     >
-                      <FaFile>
+                      <CiFileOn>
                         stroke="currentColor" className="my-1.5 inline-block
                         size-4"
-                      </FaFile>
+                      </CiFileOn>
                       <span className="is-drawer-close:hidden">
                         Issue Management
                       </span>
@@ -151,10 +152,10 @@ const DashboardLayout = () => {
                       data-tip="User Management"
                       to={"/dashboard/user-management"}
                     >
-                      <FaUsers>
+                      <HiOutlineUserGroup>
                         stroke="currentColor" className="my-1.5 inline-block
                         size-4"
-                      </FaUsers>
+                      </HiOutlineUserGroup>
                       <span className="is-drawer-close:hidden">
                         User Management
                       </span>
@@ -183,10 +184,10 @@ const DashboardLayout = () => {
                       data-tip="Payment History"
                       to={"/dashboard/payment-history"}
                     >
-                      <HiCurrencyDollar>
+                      <MdOutlineAttachMoney>
                         stroke="currentColor" className="my-1.5 inline-block
                         size-4"
-                      </HiCurrencyDollar>
+                      </MdOutlineAttachMoney>
                       <span className="is-drawer-close:hidden">
                         Payment History
                       </span>
@@ -204,10 +205,10 @@ const DashboardLayout = () => {
                       data-tip="Assigned Issues"
                       to={"/dashboard/assigned-issues"}
                     >
-                      <IoBriefcase>
+                      <IoBriefcaseOutline>
                         stroke="currentColor" className="my-1.5 inline-block
                         size-4"
-                      </IoBriefcase>
+                      </IoBriefcaseOutline>
                       <span className="is-drawer-close:hidden">
                         Assigned Issues
                       </span>
@@ -222,37 +223,11 @@ const DashboardLayout = () => {
                   data-tip="My Profile"
                   to={"/dashboard/my-profile"}
                 >
-                  <FaUserCircle>
+                  <CgProfile>
                     stroke="currentColor" className="my-1.5 inline-block size-4"
-                  </FaUserCircle>
+                  </CgProfile>
                   <span className="is-drawer-close:hidden">My Profile</span>
                 </NavLink>
-              </li>
-
-              {/* List item */}
-              <li>
-                <button
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Settings"
-                >
-                  {/* Settings icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    fill="none"
-                    stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
-                  >
-                    <path d="M20 7h-9"></path>
-                    <path d="M14 17H5"></path>
-                    <circle cx="17" cy="17" r="3"></circle>
-                    <circle cx="7" cy="7" r="3"></circle>
-                  </svg>
-                  <span className="is-drawer-close:hidden">Settings</span>
-                </button>
               </li>
             </ul>
           </div>

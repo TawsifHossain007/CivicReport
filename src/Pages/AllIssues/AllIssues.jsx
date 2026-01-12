@@ -11,7 +11,7 @@ const AllIssues = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [filter, setFilter] = useState("");
-  const limit = 9;
+  const limit = 12;
 
   const { data: issues, isLoading } = useQuery({
     queryKey: ["all-issues", searchText, currentPage, filter],
@@ -29,8 +29,7 @@ const AllIssues = () => {
 
       return issues.sort((a, b) => {
        
-        if (a.Priority === "High" && b.Priority !== "High") return -1;
-        if (a.Priority !== "High" && b.Priority === "High") return 1;
+
 
         if (filter === "Status") {
           const statusOrder = [
@@ -135,7 +134,7 @@ const AllIssues = () => {
 
       {/* Cards stagger animation */}
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-15"
+        className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-15"
         initial="hidden"
         animate="visible"
         variants={{

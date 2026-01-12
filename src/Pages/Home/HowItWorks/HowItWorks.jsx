@@ -26,7 +26,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <div className="w-11/12 mx-auto py-20 bg-green-50">
+    <div className="w-11/12 mx-auto bg-green-50">
       <div className="mb-12">
         <h2 className="text-3xl lg:text-4xl mb-5 font-bold text-green-900 text-center">
           How It Works
@@ -42,7 +42,7 @@ const HowItWorks = () => {
             key={index}
             className="flex flex-col items-center text-center mb-12 lg:mb-0"
           >
-            <div className="bg-primary text-white w-16 h-16 flex items-center justify-center rounded-full text-3xl mb-4 z-10">
+            <div className="bg-primary text-white w-16 h-16 flex items-center justify-center rounded-full text-3xl mb-4 z-2">
               {step.icon}
             </div>
             <h3 className="text-xl font-semibold text-green-800 mb-2">

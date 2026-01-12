@@ -194,7 +194,7 @@ const StaffManagement = () => {
         <h1 className="font-bold text-3xl">Staff Management</h1>
         <button
           onClick={openAddstaffModal}
-          className="btn btn-primary text-black rounded-xl mt-10 md:mt-0"
+          className="btn btn-primary text-white rounded-xl mt-10 md:mt-0"
         >
           <FaPlus /> Add staff
         </button>

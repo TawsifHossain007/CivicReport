@@ -36,7 +36,7 @@ const feedbacks = [
 
 const FeedBacks = () => {
   return (
-    <div className="w-11/12 mx-auto py-16 bg-green-50">
+    <div className="w-11/12 mx-auto bg-green-50">
       <h2 className="text-3xl lg:text-4xl font-bold text-green-900 text-center mb-6">
         What Citizens Are Saying
       </h2>

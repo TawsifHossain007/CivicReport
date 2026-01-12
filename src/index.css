@@ -18,9 +18,14 @@
   box-shadow: none;
 }
 
+*{
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+}
+
 a.active{
-  background-color: #CAEB66;
-  color: black;
+  background-color: #166534;
+  color: white;
 }
 
 .dashboard a.active{
@@ -31,6 +36,6 @@ a.active{
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #CAEB66;
+  --color-primary: #166534;
   --color-secondary: #03373D;
 }

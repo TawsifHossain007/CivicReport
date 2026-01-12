@@ -50,7 +50,7 @@ const Banner = () => {
         <h1 className="text-4xl lg:text-6xl font-bold text-green-900 mb-4">
           Report Issues. Improve Your City.
         </h1>
-        <p className="text-green-800 text-lg lg:text-xl mb-6">
+        <p className="text-primary text-lg lg:text-xl mb-6">
           Fast, Transparent, and Efficient Public Infrastructure Reporting
         </p>
         <div className="flex justify-center lg:justify-start gap-4">

@@ -222,7 +222,7 @@ const MyIssues = () => {
                 <td className="flex flex-col md:flex-row items-center justify-center gap-2">
                   <button
                     onClick={() => handelDeleteIssue(issue._id)}
-                    className="btn btn-primary text-black"
+                    className="btn btn-primary text-white"
                   >
                     Delete
                   </button>
@@ -230,13 +230,13 @@ const MyIssues = () => {
                     currentUser.status !== "Blocked" && (
                       <button
                         onClick={() => openIssueEditModal(issue)}
-                        className="btn btn-primary text-black"
+                        className="btn btn-primary text-white"
                       >
                         Edit
                       </button>
                     )}
                   <Link to={`/issue-details/${issue._id}`}>
-                    <button className="btn btn-primary text-black">
+                    <button className="btn btn-primary text-white">
                       View Details
                     </button>
                   </Link>

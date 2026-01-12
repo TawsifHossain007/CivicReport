@@ -31,7 +31,14 @@ const Navbar = () => {
       <li>
         <NavLink to={"/all-issues"}>All Issues</NavLink>
       </li>
-      <li>
+
+      {
+        user && 
+        <li>
+        <NavLink to={"/dashboard"}>Dashboard</NavLink>
+      </li>
+      }
+            <li>
         <NavLink to={"/aboutUs"}>About Us</NavLink>
       </li>
       <li>
@@ -41,7 +48,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="w-11/12 mx-auto">
+    <div className="w-11/12 mx-auto sticky top-0 z-3">
       <div className="navbar bg-white shadow-sm">
         {/* LEFT */}
         <div className="navbar-start">
@@ -116,14 +123,14 @@ const Navbar = () => {
 
                 <div>
                   <button
-                    className="btn btn-primary w-full text-black"
+                    className="btn btn-primary w-full text-white"
                     onClick={handleLogout}
                   >
                     Logout
                   </button>
                   <Link to={'/dashboard'}>
                   <button
-                    className="btn btn-primary w-full text-black mt-2"
+                    className="btn btn-primary w-full text-white mt-2"
                     
                   >
                     Dashboard
@@ -139,18 +146,18 @@ const Navbar = () => {
           {user ? (
             <button
               onClick={handleLogout}
-              className="btn btn-primary text-black"
+              className="btn btn-primary text-white"
             >
               Logout
             </button>
           ) : (
             <div className="flex items-center justify-center gap-2 md:gap-4">
-              <Link to={"/login"} className="btn btn-primary text-black">
+              <Link to={"/login"} className="btn btn-primary text-white">
                 Login
               </Link>
               <Link
                 to={"/register"}
-                className="btn btn-primary text-black"
+                className="btn btn-primary text-white"
               >
                 Register
               </Link>

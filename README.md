@@ -14,6 +14,7 @@ This is a web-based management system designed to streamline staff management, i
 ---
 
 ## Features
+
 - **Admin Dashboard:** Access and manage all aspects of the website from a centralized dashboard.  
 - **Staff Management:** Add, update, or remove staff members with ease. Includes name, contact number, email, and profile photo.  
 - **Issue Tracking System:** Submit, track, and update issues reported by staff or users.  
@@ -26,6 +27,7 @@ This is a web-based management system designed to streamline staff management, i
 - **Analytics & Reports:** Track staff activity, issue resolution status, and payment history in a structured manner.  
 - **Secure Backend:** Data is stored securely with proper authentication and authorization mechanisms.  
 - **Integration Ready:** Easily extendable with additional features, third-party APIs, or modules.  
+
 
 ---
 

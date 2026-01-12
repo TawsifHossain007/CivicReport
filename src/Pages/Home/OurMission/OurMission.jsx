@@ -3,12 +3,12 @@ import { FaCity } from 'react-icons/fa';
 
 const OurMission = () => {
   return (
-    <div className="w-full py-20 bg-gradient-to-r rounded-2xl from-green-200 to-green-400 text-gray-700 mb-12">
+    <div className="max-w-11/12 mx-auto bg-linear-to-r rounded-2xl bg-white p-10 text-gray-700 mb-12">
       <div className="w-11/12 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
         
         {/* Text Section */}
         <div className="lg:w-1/2">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+          <h2 className="text-3xl lg:text-4xl text-primary font-bold mb-6">
             Our Mission
           </h2>
           <p className="text-lg mb-6">
@@ -25,7 +25,7 @@ const OurMission = () => {
 
         {/* Illustration Section */}
         <div className="lg:w-1/2 flex justify-center">
-          <div className="text-black text-9xl opacity-20">
+          <div className="text-primary text-9xl opacity-20">
             <FaCity />
           </div>
         </div>

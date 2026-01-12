@@ -174,7 +174,7 @@ const MyProfile = () => {
           <div className="w-full border-t my-6 border-green-200"></div>
           {/* Update Profile Button */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 ">
-              <button onClick={()=>openUpdateUserModal(crntuser)} className="btn bg-green-600 text-white hover:bg-green-700">
+              <button onClick={()=>openUpdateUserModal(crntuser)} className="btn btn-primary text-white hover:bg-green-700">
             Update Profile
           </button>
           {/* Buttons */}

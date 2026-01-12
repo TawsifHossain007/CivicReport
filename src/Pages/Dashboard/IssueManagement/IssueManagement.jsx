@@ -161,7 +161,7 @@ const IssueManagement = () => {
                         <>
                           <button
                             onClick={() => openStaffModal(issue)}
-                            className="btn btn-primary text-black"
+                            className="btn btn-primary text-white"
                           >
                             Assign Staff
                           </button>
@@ -173,7 +173,7 @@ const IssueManagement = () => {
                     <>
                       <button
                         onClick={() => handleRejectIssue(issue._id)}
-                        className="btn btn-primary text-black mx-2"
+                        className="btn btn-primary text-white mx-2"
                       >
                         Reject Issue
                       </button>

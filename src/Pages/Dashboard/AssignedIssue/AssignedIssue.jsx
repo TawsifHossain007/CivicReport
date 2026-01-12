@@ -106,7 +106,7 @@ const AssignedIssue = () => {
                 </td>
                 <td>
                   <div className="dropdown dropdown-right dropdown-center">
-                    <div tabIndex={0} role="button" className="btn btn-primary text-black m-1">
+                    <div tabIndex={0} role="button" className="btn btn-primary text-white m-1">
                       Change Status
                     </div>
                     <ul tabIndex="-1" className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
